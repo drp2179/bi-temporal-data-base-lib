@@ -28,15 +28,15 @@ classDiagram
         getEvent() EVENT_ENUM
     }
 
-    class Snapshot~IDTYPE, STATE_ENUM, EVENT_ENUM, STRUCT~ {
+    class TemporalSnapshot~IDTYPE, STATE_ENUM, EVENT_ENUM, STRUCT~ {
         context TemporalContext
         struct TemporalStructureInterface
         contextHandle ContextHandle
     }
 
-    Snapshot --> ContextHandle
-    Snapshot --> TemporalContext
-    Snapshot --> TemporalStructureInterface
+    TemporalSnapshot --> ContextHandle
+    TemporalSnapshot --> TemporalContext
+    TemporalSnapshot --> TemporalStructureInterface
 
     class TemporalPersistenceInterface~IDTYPE, STATE_ENUM, EVENT_ENUM, STRUCT, SNAPSHOT~ {
         <<interface>>
@@ -48,6 +48,6 @@ classDiagram
         getByIdEffective(id IDTYPE, effectiveOn Instant) Optional~SNAPSHOT~
     }
 
-    TemporalPersistenceInterface --> Snapshot
+    TemporalPersistenceInterface --> TemporalSnapshot
 
 ```
