@@ -43,7 +43,9 @@ public interface TemporalPersistenceInterface<IDTYPE, STATE extends Enum<?>, EVE
 	 * 
 	 * @return the last instant that's valid for the persistence system
 	 */
-	Instant getLastInstant();
+	default Instant getLastInstant() {
+		return Instant.MAX;
+	}
 
 	//
 	// Create New
@@ -92,13 +94,13 @@ public interface TemporalPersistenceInterface<IDTYPE, STATE extends Enum<?>, EVE
 	 * Create the first version and revision for the provided temporal structure
 	 * effective the provided instant with the provided comment
 	 * 
-	 * @param struct        the structure to save
-	 * @param effectiveFrom when the snapshot is effective
-	 * @param comment       the comment to place in the temporal context
+	 * @param struct      the structure to save
+	 * @param effectiveOn when the snapshot is effective
+	 * @param comment     the comment to place in the temporal context
 	 * @return the snapshot created
 	 * @throws TemporalPersistenceException if there is a problem
 	 */
-	SNAPSHOT createNew(@NonNull final STRUCT struct, @NonNull final Instant effectiveFrom, String comment)
+	SNAPSHOT createNew(@NonNull final STRUCT struct, @NonNull final Instant effectiveOn, String comment)
 			throws TemporalPersistenceException;
 
 	//
@@ -134,27 +136,27 @@ public interface TemporalPersistenceInterface<IDTYPE, STATE extends Enum<?>, EVE
 	 * Create the next version of the provided temporal structure effective the
 	 * provided instant
 	 * 
-	 * @param struct        the structure to save
-	 * @param effectiveFrom when the new version is effective
+	 * @param struct      the structure to save
+	 * @param effectiveOn when the new version is effective
 	 * @return the snapshot created
 	 * @throws TemporalPersistenceException
 	 */
-	default SNAPSHOT appendVersion(@NonNull STRUCT struct, @NonNull Instant effectiveFrom)
+	default SNAPSHOT appendVersion(@NonNull STRUCT struct, @NonNull Instant effectiveOn)
 			throws TemporalPersistenceException {
-		return appendVersion(struct, effectiveFrom, null);
+		return appendVersion(struct, effectiveOn, null);
 	}
 
 	/**
 	 * Create the next version of the provided temporal structure effective the
 	 * provided instant and comment
 	 * 
-	 * @param struct        the structure to save
-	 * @param effectiveFrom when the new version is effective
-	 * @param comment       the comment to place in the temporal context
+	 * @param struct      the structure to save
+	 * @param effectiveOn when the new version is effective
+	 * @param comment     the comment to place in the temporal context
 	 * @return the snapshot created
 	 * @throws TemporalPersistenceException
 	 */
-	SNAPSHOT appendVersion(@NonNull final STRUCT struct, @NonNull final Instant effectiveFrom, final String comment)
+	SNAPSHOT appendVersion(@NonNull final STRUCT struct, @NonNull final Instant effectiveOn, final String comment)
 			throws TemporalPersistenceException;
 
 	//
