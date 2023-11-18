@@ -15,6 +15,8 @@
  */
 package com.djpedersen.bitemporal.bitemporaldatabase;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.ToString;
@@ -31,6 +33,7 @@ import lombok.ToString;
  */
 @ToString
 @EqualsAndHashCode
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class TemporalSnapshot<IDTYPE, STATE extends Enum<?>, EVENT extends Enum<?>, STRUCT extends TemporalStructureInterface<IDTYPE, STATE, EVENT>> {
 
 	/**
