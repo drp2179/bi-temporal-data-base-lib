@@ -15,6 +15,10 @@
  */
 package com.djpedersen.bitemporal.bitemporaldatabase;
 
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
 /**
  * A generic class which provides a convenience to identify a specific revision
  * of a version of a bi-temporal structure. One could store a context handle
@@ -25,6 +29,9 @@ package com.djpedersen.bitemporal.bitemporaldatabase;
  * 
  * @param <IDTYPE> the type of the identifier
  */
+@ToString
+@EqualsAndHashCode
+@Builder
 public class ContextHandle<IDTYPE> {
 
 	/**
