@@ -21,8 +21,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 /**
- * Defines an exception for when a snapshot cannot be found by the persistence
- * module
+ * Defines an exception for when a snapshot cannot be found by the persistence module
  * 
  * @author Daniel R. Pedersen
  */
@@ -31,8 +30,17 @@ public class SnapshotNotFoundException extends TemporalPersistenceException {
 
 	private static final long serialVersionUID = 9218708816016583451L;
 
-	public SnapshotNotFoundException(@NonNull final String collectionName, @NonNull final String identifier,
-			@NonNull final Instant effectiveFrom) {
+	public SnapshotNotFoundException(@NonNull final String collectionName, @NonNull final String identifier) {
+
+		super("No snapshot found for " + collectionName + " " + identifier);
+	}
+
+	public SnapshotNotFoundException(@NonNull final String collectionName, @NonNull final String identifier, final int version) {
+
+		super("No snapshot found for " + collectionName + " " + identifier + " v" + version);
+	}
+
+	public SnapshotNotFoundException(@NonNull final String collectionName, @NonNull final String identifier, @NonNull final Instant effectiveFrom) {
 
 		super("No snapshot found for " + collectionName + " " + identifier + " effective " + effectiveFrom);
 	}
