@@ -162,7 +162,7 @@ public interface TemporalPersistenceInterface<IDTYPE, STATE extends Enum<?>, EVE
 	 * @return a pair of the original and corrected snapshots
 	 * @throws TemporalPersistenceException if there is a problem
 	 */
-	CorrectedPair<SNAPSHOT> correctFieldForVersion(@NonNull final IDTYPE id, final int version, @NonNull final String correctionPath, final Object newValue,
+	CorrectedPair<SNAPSHOT> correctVersion(@NonNull final IDTYPE id, final int version, @NonNull final String correctionPath, final Object newValue,
 			@NonNull final String reason) throws TemporalPersistenceException;
 
 	/**
@@ -181,8 +181,8 @@ public interface TemporalPersistenceInterface<IDTYPE, STATE extends Enum<?>, EVE
 	 * @return a list of all pairs of the original and corrected snapshots of all versions corrected
 	 * @throws TemporalPersistenceException if there is a problem
 	 */
-	List<CorrectedPair<SNAPSHOT>> correctFieldForAllVersions(@NonNull final IDTYPE id, @NonNull final String correctionPath, final Object newValue,
-			@NonNull final String reason);
+	List<CorrectedPair<SNAPSHOT>> correctAllVersions(@NonNull final IDTYPE id, @NonNull final String correctionPath, final Object newValue,
+			@NonNull final String reason) throws TemporalPersistenceException;
 
 	//
 	// Query by Id
