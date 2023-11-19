@@ -26,8 +26,7 @@ import com.djpedersen.bitemporal.bitemporaldatabase.TemporalStructureInterface;
 import lombok.NonNull;
 
 /**
- * Defines the persistence operations required of any implementation of temporal
- * persistence.
+ * Defines the persistence operations required of any implementation of temporal persistence.
  * 
  * @author Daniel R. Pedersen
  * 
@@ -52,8 +51,7 @@ public interface TemporalPersistenceInterface<IDTYPE, STATE extends Enum<?>, EVE
 	//
 
 	/**
-	 * Create the first version and revision for the provided temporal structure
-	 * effective now
+	 * Create the first version and revision for the provided temporal structure effective now
 	 * 
 	 * @param struct the structure to save
 	 * @return the snapshot created
@@ -64,8 +62,7 @@ public interface TemporalPersistenceInterface<IDTYPE, STATE extends Enum<?>, EVE
 	}
 
 	/**
-	 * Create the first version and revision for the provided temporal structure
-	 * effective now with the provided comment
+	 * Create the first version and revision for the provided temporal structure effective now with the provided comment
 	 * 
 	 * @param struct  the structure to save
 	 * @param comment the comment to place in the temporal context
@@ -77,22 +74,20 @@ public interface TemporalPersistenceInterface<IDTYPE, STATE extends Enum<?>, EVE
 	}
 
 	/**
-	 * Create the first version and revision for the provided temporal structure
-	 * effective the provided instant
+	 * Create the first version and revision for the provided temporal structure effective the provided instant
 	 * 
-	 * @param struct        the structure to save
-	 * @param effectiveFrom when the snapshot is effective
+	 * @param struct      the structure to save
+	 * @param effectiveOn when the snapshot is effective
 	 * @return the snapshot created
 	 * @throws TemporalPersistenceException if there is a problem
 	 */
-	default SNAPSHOT createNew(@NonNull final STRUCT struct, @NonNull final Instant effectiveFrom)
-			throws TemporalPersistenceException {
-		return createNew(struct, effectiveFrom, null);
+	default SNAPSHOT createNew(@NonNull final STRUCT struct, @NonNull final Instant effectiveOn) throws TemporalPersistenceException {
+		return createNew(struct, effectiveOn, null);
 	}
 
 	/**
-	 * Create the first version and revision for the provided temporal structure
-	 * effective the provided instant with the provided comment
+	 * Create the first version and revision for the provided temporal structure effective the provided instant with the provided
+	 * comment
 	 * 
 	 * @param struct      the structure to save
 	 * @param effectiveOn when the snapshot is effective
@@ -100,8 +95,7 @@ public interface TemporalPersistenceInterface<IDTYPE, STATE extends Enum<?>, EVE
 	 * @return the snapshot created
 	 * @throws TemporalPersistenceException if there is a problem
 	 */
-	SNAPSHOT createNew(@NonNull final STRUCT struct, @NonNull final Instant effectiveOn, String comment)
-			throws TemporalPersistenceException;
+	SNAPSHOT createNew(@NonNull final STRUCT struct, @NonNull final Instant effectiveOn, final String comment) throws TemporalPersistenceException;
 
 	//
 	// Append Version
@@ -112,60 +106,90 @@ public interface TemporalPersistenceInterface<IDTYPE, STATE extends Enum<?>, EVE
 	 * 
 	 * @param struct the structure to save
 	 * @return the snapshot created
-	 * @throws TemporalPersistenceException
+	 * @throws TemporalPersistenceException if there is a problem
 	 */
 	default SNAPSHOT appendVersion(@NonNull final STRUCT struct) throws TemporalPersistenceException {
 		return appendVersion(struct, Instant.now(), null);
 	}
 
 	/**
-	 * Create the next version of the provided temporal structure effective now with
-	 * the provided comment
+	 * Create the next version of the provided temporal structure effective now with the provided comment
 	 * 
 	 * @param struct  the structure to save
 	 * @param comment the comment to place in the temporal context
 	 * @return the snapshot created
-	 * @throws TemporalPersistenceException
+	 * @throws TemporalPersistenceException if there is a problem
 	 */
-	default SNAPSHOT appendVersion(@NonNull final STRUCT struct, final String comment)
-			throws TemporalPersistenceException {
+	default SNAPSHOT appendVersion(@NonNull final STRUCT struct, final String comment) throws TemporalPersistenceException {
 		return appendVersion(struct, Instant.now(), comment);
 	}
 
 	/**
-	 * Create the next version of the provided temporal structure effective the
-	 * provided instant
+	 * Create the next version of the provided temporal structure effective the provided instant
 	 * 
 	 * @param struct      the structure to save
 	 * @param effectiveOn when the new version is effective
 	 * @return the snapshot created
-	 * @throws TemporalPersistenceException
+	 * @throws TemporalPersistenceException if there is a problem
 	 */
-	default SNAPSHOT appendVersion(@NonNull STRUCT struct, @NonNull Instant effectiveOn)
-			throws TemporalPersistenceException {
+	default SNAPSHOT appendVersion(@NonNull final STRUCT struct, @NonNull final Instant effectiveOn) throws TemporalPersistenceException {
 		return appendVersion(struct, effectiveOn, null);
 	}
 
 	/**
-	 * Create the next version of the provided temporal structure effective the
-	 * provided instant and comment
+	 * Create the next version of the provided temporal structure effective the provided instant and comment
 	 * 
 	 * @param struct      the structure to save
 	 * @param effectiveOn when the new version is effective
 	 * @param comment     the comment to place in the temporal context
 	 * @return the snapshot created
-	 * @throws TemporalPersistenceException
+	 * @throws TemporalPersistenceException if there is a problem
 	 */
-	SNAPSHOT appendVersion(@NonNull final STRUCT struct, @NonNull final Instant effectiveOn, final String comment)
-			throws TemporalPersistenceException;
+	SNAPSHOT appendVersion(@NonNull final STRUCT struct, @NonNull final Instant effectiveOn, final String comment) throws TemporalPersistenceException;
+
+	//
+	// Corrections
+	//
+
+	/**
+	 * Correct the latest revision of the identified snapshot version with the new provided value
+	 * 
+	 * @param id             the identifier of the snapshot
+	 * @param version        the version of to correct
+	 * @param correctionPath the path to the field to correct
+	 * @param newValue       the new value to place (can be null)
+	 * @param reason         required, the reason for the change
+	 * @return a pair of the original and corrected snapshots
+	 * @throws TemporalPersistenceException if there is a problem
+	 */
+	CorrectedPair<SNAPSHOT> correctFieldForVersion(@NonNull final IDTYPE id, final int version, @NonNull final String correctionPath, final Object newValue,
+			@NonNull final String reason) throws TemporalPersistenceException;
+
+	/**
+	 * Correct the latest revision of all version the identified snapshot with the new provided value
+	 *
+	 * N.B. If the path to the field did not exist in the version being altered it is not created and the value is not set in that
+	 * version. One would need to first correct the version to have the proper existing path before correcting the sub-path field. A
+	 * CorrectionPair will not be included in the returned list in this circumstance.
+	 * 
+	 * N.B. The specific path description language is left to the choice of the implementation class
+	 * 
+	 * @param id             the identifier of the snapshot
+	 * @param correctionPath the path to the field to correct
+	 * @param newValue       the new value to place (can be null)
+	 * @param reason         required, the reason for the change
+	 * @return a list of all pairs of the original and corrected snapshots of all versions corrected
+	 * @throws TemporalPersistenceException if there is a problem
+	 */
+	List<CorrectedPair<SNAPSHOT>> correctFieldForAllVersions(@NonNull final IDTYPE id, @NonNull final String correctionPath, final Object newValue,
+			@NonNull final String reason);
 
 	//
 	// Query by Id
 	//
 
 	/**
-	 * Get the latest revision of the version of the snapshot for the id effective
-	 * "now"
+	 * Get the latest revision of the version of the snapshot for the id effective "now"
 	 * 
 	 * @param id the id to search for
 	 * @return the snapshot if found
@@ -176,8 +200,7 @@ public interface TemporalPersistenceInterface<IDTYPE, STATE extends Enum<?>, EVE
 	}
 
 	/**
-	 * Get the latest revision of the version of the snapshot for the id effective
-	 * at the end of time.
+	 * Get the latest revision of the version of the snapshot for the id effective at the end of time.
 	 * 
 	 * @param id the id to search for
 	 * @return the snapshot if found
@@ -195,8 +218,7 @@ public interface TemporalPersistenceInterface<IDTYPE, STATE extends Enum<?>, EVE
 	 * @return the snapshot if found
 	 * @throws TemporalPersistenceException if there is a problem
 	 */
-	Optional<SNAPSHOT> getByIdEffective(@NonNull final IDTYPE id, @NonNull final Instant effectiveOn)
-			throws TemporalPersistenceException;
+	Optional<SNAPSHOT> getByIdEffective(@NonNull final IDTYPE id, @NonNull final Instant effectiveOn) throws TemporalPersistenceException;
 
 	/**
 	 * Get the most recent revision of the snapshot for the provided id and version
@@ -206,8 +228,7 @@ public interface TemporalPersistenceInterface<IDTYPE, STATE extends Enum<?>, EVE
 	 * @return the snapshot if found
 	 * @throws TemporalPersistenceException if there is a problem
 	 */
-	Optional<SNAPSHOT> getByIdAndVersion(@NonNull final IDTYPE id, final int version)
-			throws TemporalPersistenceException;
+	Optional<SNAPSHOT> getByIdAndVersion(@NonNull final IDTYPE id, final int version) throws TemporalPersistenceException;
 
 	/**
 	 * Get the specific revision of the version and id of the snapshot
@@ -218,24 +239,20 @@ public interface TemporalPersistenceInterface<IDTYPE, STATE extends Enum<?>, EVE
 	 * @return the snapshot if found
 	 * @throws TemporalPersistenceException if there is a problem
 	 */
-	Optional<SNAPSHOT> getByIdVersionAndRevision(@NonNull final IDTYPE id, final int version, final int revision)
-			throws TemporalPersistenceException;
+	Optional<SNAPSHOT> getByIdVersionAndRevision(@NonNull final IDTYPE id, final int version, final int revision) throws TemporalPersistenceException;
 
 	/**
 	 * If an identity only context handle, returns the current effective revision
 	 * 
-	 * If a version only context handle, returns the latest revision of the snapshot
-	 * for the version.
+	 * If a version only context handle, returns the latest revision of the snapshot for the version.
 	 * 
-	 * If a fully specified context handle, returns the exact revision and version
-	 * of the snapshot.
+	 * If a fully specified context handle, returns the exact revision and version of the snapshot.
 	 * 
 	 * @param contextHandle the context handle to query for
 	 * @return the snapshot if found
 	 * @throws TemporalPersistenceException if there is a problem
 	 */
-	default Optional<SNAPSHOT> getByContextHandle(@NonNull final ContextHandle<IDTYPE> contextHandle)
-			throws TemporalPersistenceException {
+	default Optional<SNAPSHOT> getByContextHandle(@NonNull final ContextHandle<IDTYPE> contextHandle) throws TemporalPersistenceException {
 		if (contextHandle.revision == null) {
 			if (contextHandle.version == null) {
 				return this.getByIdCurrent(contextHandle.identifier);
@@ -252,8 +269,7 @@ public interface TemporalPersistenceInterface<IDTYPE, STATE extends Enum<?>, EVE
 	//
 
 	/**
-	 * Return the list of all versions and revisions for the specified id. List is
-	 * returned in reverse version and revision order.
+	 * Return the list of all versions and revisions for the specified id. List is returned in reverse version and revision order.
 	 * 
 	 * @param id the id to search for
 	 * @return the list of matching snapshots, may be empty
@@ -264,23 +280,21 @@ public interface TemporalPersistenceInterface<IDTYPE, STATE extends Enum<?>, EVE
 	}
 
 	/**
-	 * Return the list of all versions and revisions between the specified effective
-	 * times. List is returned in reverse version and revision order.
+	 * Return the list of all versions and revisions between the specified effective times. List is returned in reverse version and
+	 * revision order.
 	 * 
 	 * @param id             the id to search for
-	 * @param effectiveFrom  optional inclusive starting timestamp, null implies the
-	 *                       beginning of time
-	 * @param effectiveUntil optional exclusive ending timestamp, null implies the
-	 *                       end of time
+	 * @param effectiveFrom  optional inclusive starting timestamp, null implies the beginning of time
+	 * @param effectiveUntil optional exclusive ending timestamp, null implies the end of time
 	 * @return the list of matching snapshots, may be empty
 	 * @throws TemporalPersistenceException if there is a problem
 	 */
-	List<SNAPSHOT> getAllVersionsAndRevisions(@NonNull final IDTYPE id, final Instant effectiveFrom,
-			final Instant effectiveUntil) throws TemporalPersistenceException;
+	List<SNAPSHOT> getAllVersionsAndRevisions(@NonNull final IDTYPE id, final Instant effectiveFrom, final Instant effectiveUntil)
+			throws TemporalPersistenceException;
 
 	/**
-	 * Return the list of all versions and revisions between the specified versions.
-	 * List is returned in reverse version and revision order.
+	 * Return the list of all versions and revisions between the specified versions. List is returned in reverse version and
+	 * revision order.
 	 * 
 	 * @param id              the id to search for
 	 * @param startingVersion the inclusive starting version
@@ -288,8 +302,7 @@ public interface TemporalPersistenceInterface<IDTYPE, STATE extends Enum<?>, EVE
 	 * @return the list of matching snapshots, may be empty
 	 * @throws TemporalPersistenceException if there is a problem
 	 */
-	List<SNAPSHOT> getAllVersionsAndRevisions(@NonNull final IDTYPE id, final int startingVersion,
-			final int endingVersion) throws TemporalPersistenceException;
+	List<SNAPSHOT> getAllVersionsAndRevisions(@NonNull final IDTYPE id, final int startingVersion, final int endingVersion) throws TemporalPersistenceException;
 
 	/**
 	 * Return the list of the most recent revision of all versions for an id.
@@ -303,23 +316,19 @@ public interface TemporalPersistenceInterface<IDTYPE, STATE extends Enum<?>, EVE
 	}
 
 	/**
-	 * Return the list of the most recent revision of all versions for an id between
-	 * the specified effective times.
+	 * Return the list of the most recent revision of all versions for an id between the specified effective times.
 	 * 
 	 * @param id             the id to search for
-	 * @param effectiveFrom  optional inclusive starting timestamp, null implies the
-	 *                       beginning of time
-	 * @param effectiveUntil optional exclusive ending timestamp, null implies the
-	 *                       end of time
+	 * @param effectiveFrom  optional inclusive starting timestamp, null implies the beginning of time
+	 * @param effectiveUntil optional exclusive ending timestamp, null implies the end of time
 	 * @return the list of matching snapshots, may be empty
 	 * @throws TemporalPersistenceException if there is a problem
 	 */
-	List<SNAPSHOT> getAllVersions(@NonNull final IDTYPE id, final Instant effectiveFrom, final Instant effectiveUntil)
-			throws TemporalPersistenceException;
+	List<SNAPSHOT> getAllVersions(@NonNull final IDTYPE id, final Instant effectiveFrom, final Instant effectiveUntil) throws TemporalPersistenceException;
 
 	/**
-	 * Return the list of the most recent revision of all versions between the
-	 * specified versions. List is returned in reverse version and revision order.
+	 * Return the list of the most recent revision of all versions between the specified versions. List is returned in reverse
+	 * version and revision order.
 	 * 
 	 * @param id              the id to search for
 	 * @param startingVersion the inclusive starting version
@@ -327,7 +336,6 @@ public interface TemporalPersistenceInterface<IDTYPE, STATE extends Enum<?>, EVE
 	 * @return the list of matching snapshots, may be empty
 	 * @throws TemporalPersistenceException if there is a problem
 	 */
-	List<SNAPSHOT> getAllVersions(@NonNull final IDTYPE id, final int startingVersion, final int endingVersion)
-			throws TemporalPersistenceException;
+	List<SNAPSHOT> getAllVersions(@NonNull final IDTYPE id, final int startingVersion, final int endingVersion) throws TemporalPersistenceException;
 
 }
