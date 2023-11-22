@@ -15,6 +15,7 @@
  */
 package com.djpedersen.bitemporal.bitemporaldatabase.example;
 
+import java.util.List;
 import java.util.UUID;
 
 import com.djpedersen.bitemporal.bitemporaldatabase.TemporalStructureInterface;
@@ -27,8 +28,7 @@ import lombok.Data;
  */
 @Data
 @Builder
-public class ExampleStruct
-		implements TemporalStructureInterface<UUID, ExampleStruct.ExampleState, ExampleStruct.ExampleEvent> {
+public class ExampleStruct implements TemporalStructureInterface<UUID, ExampleStruct.ExampleState, ExampleStruct.ExampleEvent> {
 
 	public static enum ExampleState {
 		Working, Closed
@@ -39,6 +39,14 @@ public class ExampleStruct
 	}
 
 	private UUID id;
+	private int intValue;
+
+	private List<String> stringList;
+	private String[] stringArray;
+	private List<ExampleSubStruct> subStructList;
+
+	private ExampleSubStruct subStruct;
+
 	private ExampleState state;
 	private ExampleEvent event;
 
