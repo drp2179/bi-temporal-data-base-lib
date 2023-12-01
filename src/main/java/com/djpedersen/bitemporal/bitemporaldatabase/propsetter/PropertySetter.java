@@ -32,17 +32,18 @@ public class PropertySetter {
 	 * @param objectToFix   the object to traverse and set
 	 * @param attributePath the path to the attribute to set, must start with "$."
 	 * @param newValue      the new value (can be null, if allowed by the property)
+	 * @return true if set, else false
 	 * @throws IllegalArgumentException  if there is a problem
 	 * @throws IllegalAccessException    if there is a problem
 	 * @throws NoSuchMethodException     if there is a problem
 	 * @throws SecurityException         if there is a problem
 	 * @throws InvocationTargetException if there is a problem
 	 */
-	public static void set(final Object objectToFix, @NonNull final String attributePath, final Object newValue)
+	public static boolean set(final Object objectToFix, @NonNull final String attributePath, final Object newValue)
 			throws IllegalArgumentException, IllegalAccessException, NoSuchMethodException, SecurityException, InvocationTargetException {
 
 		if (objectToFix == null) {
-			return;
+			return false;
 		} else if (!attributePath.startsWith("$.")) {
 			throw new IllegalArgumentException("'attributePath' parameter must start with $.");
 		}
@@ -70,7 +71,11 @@ public class PropertySetter {
 //				System.out.println("isArrayPath, index: " + arrayIndex);
 			}
 
-			attribute = getFieldByName(currentObject, attributeName);
+			if (currentObject != null) {
+				attribute = getFieldByName(currentObject, attributeName);
+			} else {
+				attribute = null;
+			}
 
 			if (attribute == null) {
 //				System.out.println("no attribute found named " + attributeName);
@@ -102,7 +107,10 @@ public class PropertySetter {
 //			System.out.println("Setting attribute " + attribute.getName() + " to: " + newValue);
 			attribute.setAccessible(true);
 			attribute.set(currentObject, newValue);
+			return true;
 		}
+		
+		return false;
 	}
 
 	private static boolean isListType(Field field) {

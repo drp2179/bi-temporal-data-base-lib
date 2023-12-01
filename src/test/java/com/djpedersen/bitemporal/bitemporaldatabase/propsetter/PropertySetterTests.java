@@ -24,9 +24,11 @@ class PropertySetterTests {
 		final int newValue = 44;
 		final String attributePath = "$.intValue";
 
-		PropertySetter.set(objectToFix, attributePath, newValue);
+		final boolean wasSet = PropertySetter.set(objectToFix, attributePath, newValue);
 
-		Assertions.assertEquals(newValue, objectToFix.getIntValue());
+		Assertions.assertTrue(wasSet, "value should have been set");
+		;
+		Assertions.assertEquals(newValue, objectToFix.getIntValue(), "the wrong value was set");
 	}
 
 	@Test
@@ -50,9 +52,10 @@ class PropertySetterTests {
 		final var newValue = UUID.randomUUID();
 		final String attributePath = "$.id";
 
-		PropertySetter.set(objectToFix, attributePath, newValue);
+		final boolean wasSet = PropertySetter.set(objectToFix, attributePath, newValue);
 
-		Assertions.assertEquals(newValue, objectToFix.getId());
+		Assertions.assertTrue(wasSet, "value should have been set");
+		Assertions.assertEquals(newValue, objectToFix.getId(), "the wrong value was set");
 	}
 
 	@Test
@@ -65,9 +68,10 @@ class PropertySetterTests {
 		final UUID newValue = null;
 		final String attributePath = "$.id";
 
-		PropertySetter.set(objectToFix, attributePath, newValue);
+		final boolean wasSet = PropertySetter.set(objectToFix, attributePath, newValue);
 
-		Assertions.assertEquals(newValue, objectToFix.getId());
+		Assertions.assertTrue(wasSet, "value should have been set");
+		Assertions.assertEquals(newValue, objectToFix.getId(), "the wrong value was set");
 	}
 
 	@Test
@@ -80,9 +84,10 @@ class PropertySetterTests {
 		final var newValue = ExampleState.Closed;
 		final String attributePath = "$.state";
 
-		PropertySetter.set(objectToFix, attributePath, newValue);
+		final boolean wasSet = PropertySetter.set(objectToFix, attributePath, newValue);
 
-		Assertions.assertEquals(newValue, objectToFix.getState());
+		Assertions.assertTrue(wasSet, "value should have been set");
+		Assertions.assertEquals(newValue, objectToFix.getState(), "the wrong value was set");
 	}
 
 	@Test
@@ -97,11 +102,13 @@ class PropertySetterTests {
 		final var newValue = 44;
 		final String attributePath = "$.subStruct.subIntValue";
 
-		PropertySetter.set(objectToFix, attributePath, newValue);
+		final boolean wasSet = PropertySetter.set(objectToFix, attributePath, newValue);
 
-		Assertions.assertEquals(newValue, objectToFix.getSubStruct().getSubIntValue());
+		Assertions.assertTrue(wasSet, "value should have been set");
+		Assertions.assertEquals(newValue, objectToFix.getSubStruct().getSubIntValue(), "the wrong value was set");
 	}
 
+	// TODO: PropertySetter setArrayField_Simple
 	@Disabled("not fully implemented")
 	@Test
 	void setArrayField_Simple() throws IllegalArgumentException, IllegalAccessException, NoSuchMethodException, SecurityException, InvocationTargetException {
@@ -114,11 +121,13 @@ class PropertySetterTests {
 		final var newValue = "of the emergency broadcast system";
 		final String attributePath = "$.stringArray[0]";
 
-		PropertySetter.set(objectToFix, attributePath, newValue);
+		final boolean wasSet = PropertySetter.set(objectToFix, attributePath, newValue);
 
-		Assertions.assertEquals(newValue, objectToFix.getStringArray()[0]);
+		Assertions.assertTrue(wasSet, "value should have been set");
+		Assertions.assertEquals(newValue, objectToFix.getStringArray()[0], "the wrong value was set");
 	}
 
+	// TODO: PropertySetter setListField_Simple
 	@Disabled("not fully implemented")
 	@Test
 	void setListField_Simple() throws IllegalArgumentException, IllegalAccessException, NoSuchMethodException, SecurityException, InvocationTargetException {
@@ -132,9 +141,10 @@ class PropertySetterTests {
 		final var newValue = "of the emergency broadcast system";
 		final String attributePath = "$.stringList[0]";
 
-		PropertySetter.set(objectToFix, attributePath, newValue);
+		final boolean wasSet = PropertySetter.set(objectToFix, attributePath, newValue);
 
-		Assertions.assertEquals(newValue, objectToFix.getStringList().get(0));
+		Assertions.assertTrue(wasSet, "value should have been set");
+		Assertions.assertEquals(newValue, objectToFix.getStringList().get(0), "the wrong value was set");
 	}
 
 	@Test
@@ -152,9 +162,26 @@ class PropertySetterTests {
 		final var newValue = 44;
 		final String attributePath = "$.subStructList[0].subIntValue";
 
-		PropertySetter.set(objectToFix, attributePath, newValue);
+		final boolean wasSet = PropertySetter.set(objectToFix, attributePath, newValue);
 
-		Assertions.assertEquals(newValue, objectToFix.getSubStructList().get(0).getSubIntValue());
+		Assertions.assertTrue(wasSet, "value should have been set");
+		Assertions.assertEquals(newValue, objectToFix.getSubStructList().get(0).getSubIntValue(), "the wrong value was set");
+	}
+
+	@Test
+	void setSubObjectFieldAttribute_MissingSubObject()
+			throws IllegalArgumentException, IllegalAccessException, NoSuchMethodException, SecurityException, InvocationTargetException {
+		final var objectToFix = ExampleStruct.builder().subStruct(null).build();
+
+		final var newValue = 44;
+		final String attributePath = "$.subStruct.subIntValue";
+
+		final var originalObjectToFix = new ExampleStruct(objectToFix);
+
+		final boolean wasSet = PropertySetter.set(objectToFix, attributePath, newValue);
+
+		Assertions.assertFalse(wasSet, "value should NOT have been set");
+		Assertions.assertEquals(originalObjectToFix, objectToFix, "object should not have been changed");
 	}
 
 }
