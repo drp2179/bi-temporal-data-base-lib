@@ -15,19 +15,26 @@
  */
 package com.djpedersen.bitemporal.bitemporaldatabase.example;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
 import com.djpedersen.bitemporal.bitemporaldatabase.TemporalStructureInterface;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 /**
  * @author Daniel R. Pedersen
  */
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ExampleStruct implements TemporalStructureInterface<UUID, ExampleStruct.ExampleState, ExampleStruct.ExampleEvent> {
 
 	public static enum ExampleState {
@@ -49,6 +56,17 @@ public class ExampleStruct implements TemporalStructureInterface<UUID, ExampleSt
 
 	private ExampleState state;
 	private ExampleEvent event;
+
+	public ExampleStruct(@NonNull final ExampleStruct src) {
+		this.id = src.id;
+		this.intValue = src.intValue;
+		this.stringList = src.stringList != null ? new ArrayList<>(src.stringList) : null;
+		this.stringArray = src.stringArray != null ? Arrays.copyOf(src.stringArray, src.stringArray.length) : null;
+		this.subStructList = src.subStructList != null ? new ArrayList<>(src.subStructList) : null;
+		this.subStruct = src.subStruct != null ? new ExampleSubStruct(src.subStruct) : null;
+		this.state = src.state;
+		this.event = src.event;
+	}
 
 	@Override
 	public UUID getIdentifier() {
