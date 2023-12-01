@@ -154,6 +154,10 @@ public interface TemporalPersistenceInterface<IDTYPE, STATE extends Enum<?>, EVE
 	/**
 	 * Correct the latest revision of the identified snapshot version with the new provided value
 	 * 
+	 * N.B. If the path to the field did not exist in the version being altered it is not created and the value is not set in that
+	 * version. One would need to first correct the version to have the proper existing path before correcting the sub-path field. A
+	 * CorrectionPair will not be returned in this circumstance.
+	 *
 	 * @see PropertySetter for details about the correctionPath format
 	 * 
 	 * @param id             the identifier of the snapshot
@@ -161,7 +165,7 @@ public interface TemporalPersistenceInterface<IDTYPE, STATE extends Enum<?>, EVE
 	 * @param correctionPath the path to the field to correct
 	 * @param newValue       the new value to place (can be null)
 	 * @param reason         required, the reason for the change
-	 * @return a pair of the original and corrected snapshots
+	 * @return a pair of the original and corrected snapshots if the path is found, null otherwise
 	 * @throws TemporalPersistenceException if there is a problem
 	 */
 	CorrectedPair<SNAPSHOT> correctVersion(@NonNull final IDTYPE id, final int version, @NonNull final String correctionPath, final Object newValue,
