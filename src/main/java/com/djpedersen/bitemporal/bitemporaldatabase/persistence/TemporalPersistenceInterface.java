@@ -190,6 +190,10 @@ public interface TemporalPersistenceInterface<IDTYPE, STATE extends Enum<?>, EVE
 	List<CorrectedPair<SNAPSHOT>> correctAllVersions(@NonNull final IDTYPE id, @NonNull final String correctionPath, final Object newValue,
 			@NonNull final String reason) throws TemporalPersistenceException;
 
+	// TODO: correctVersionEffectiveOn
+//	List<CorrectedPair<SNAPSHOT>> correctVersionEffectiveOn(@NonNull final IDTYPE id, final int version, @NonNull final Instant newEffectiveOn,
+//			@NonNull final String reason) throws TemporalPersistenceException;
+
 	//
 	// Query by Id
 	//
