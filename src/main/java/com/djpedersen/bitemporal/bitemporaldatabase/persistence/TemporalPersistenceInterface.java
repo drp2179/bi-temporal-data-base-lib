@@ -31,12 +31,12 @@ import lombok.NonNull;
  * @author Daniel R. Pedersen
  * 
  * @param <IDTYPE>   the type of the structure's identifier
- * @param <STATE>    the type of the structure's state enum
- * @param <EVENT>    the type of the structure's event enum
+ * @param <STATE_ENUM>    the type of the structure's state enum
+ * @param <EVENT_ENUM>    the type of the structure's event enum
  * @param <STRUCT>   the type of the structure
  * @param <SNAPSHOT> the type of the structure's snapsho
  */
-public interface TemporalPersistenceInterface<IDTYPE, STATE extends Enum<?>, EVENT extends Enum<?>, STRUCT extends TemporalStructureInterface<IDTYPE, STATE, EVENT>, SNAPSHOT extends TemporalSnapshot<IDTYPE, STATE, EVENT, STRUCT>> {
+public interface TemporalPersistenceInterface<IDTYPE, STATE_ENUM extends Enum<?>, EVENT_ENUM extends Enum<?>, STRUCT extends TemporalStructureInterface<IDTYPE, STATE_ENUM, EVENT_ENUM>, SNAPSHOT extends TemporalSnapshot<IDTYPE, STATE_ENUM, EVENT_ENUM, STRUCT>> {
 
 	/**
 	 * 
@@ -190,6 +190,8 @@ public interface TemporalPersistenceInterface<IDTYPE, STATE extends Enum<?>, EVE
 	List<CorrectedPair<SNAPSHOT>> correctAllVersions(@NonNull final IDTYPE id, @NonNull final String correctionPath, final Object newValue,
 			@NonNull final String reason) throws TemporalPersistenceException;
 
+	// TODO: correct state
+	// TODO: correct event
 	// TODO: correctVersionEffectiveOn
 //	List<CorrectedPair<SNAPSHOT>> correctVersionEffectiveOn(@NonNull final IDTYPE id, final int version, @NonNull final Instant newEffectiveOn,
 //			@NonNull final String reason) throws TemporalPersistenceException;
