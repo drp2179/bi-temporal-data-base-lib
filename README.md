@@ -43,7 +43,7 @@ classDiagram
 			originalSnapshot SNAPSHOT (final)
 			correctedSnapshot SNAPSHOT (final)
 
-			of(originalSnapshot SNAPSHOT, correctedSnapshot SNAPSHOT) CorrectedPair $
+			of(originalSnapshot SNAPSHOT, correctedSnapshot SNAPSHOT) CorrectedPair~SNAPSHOT~ $
     }
     
     CorrectedPair "2" --> TemporalSnapshot
