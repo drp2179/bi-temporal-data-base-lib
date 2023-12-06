@@ -16,8 +16,7 @@
 package com.djpedersen.bitemporal.bitemporaldatabase;
 
 /**
- * A generic interface which defines the minimum temporal information of a
- * temporal structure.
+ * A generic interface which defines the minimum temporal information of a temporal structure.
  * 
  * @author Daniel R. Pedersen
  * 
@@ -47,5 +46,12 @@ public interface TemporalStructureInterface<IDTYPE, STATE extends Enum<?>, EVENT
 	 * @return the event
 	 */
 	EVENT getEvent();
+
+	/**
+	 * What edition of this struct are we looking at?
+	 * 
+	 * @return 1 based edition number
+	 */
+	int getEdition();
 
 }

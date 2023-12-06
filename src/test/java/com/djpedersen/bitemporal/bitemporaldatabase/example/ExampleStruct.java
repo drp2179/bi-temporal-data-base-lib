@@ -83,4 +83,9 @@ public class ExampleStruct implements TemporalStructureInterface<UUID, ExampleSt
 		return this.event;
 	}
 
+	@Override
+	public int getEdition() {
+		return 1;
+	}
+
 }
