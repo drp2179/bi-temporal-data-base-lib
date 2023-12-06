@@ -26,15 +26,15 @@ import lombok.ToString;
  * 
  * @author Daniel R. Pedersen
  * 
- * @param <IDTYPE> the type of the structure's identifier
- * @param <STATE>  the type of the structure's state enum
- * @param <EVENT>  the type of the structure's event enum
- * @param <STRUCT> the type of the structure
+ * @param <IDTYPE>     the type of the structure's identifier
+ * @param <STATE_ENUM> the type of the structure's state enum
+ * @param <EVENT_ENUM> the type of the structure's event enum
+ * @param <STRUCT>     the type of the structure
  */
 @ToString
 @EqualsAndHashCode
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public class TemporalSnapshot<IDTYPE, STATE extends Enum<?>, EVENT extends Enum<?>, STRUCT extends TemporalStructureInterface<IDTYPE, STATE, EVENT>> {
+public class TemporalSnapshot<IDTYPE, STATE_ENUM extends Enum<?>, EVENT_ENUM extends Enum<?>, STRUCT extends TemporalStructureInterface<IDTYPE, STATE_ENUM, EVENT_ENUM>> {
 
 	/**
 	 * The temporal context of the associated temporal structure
@@ -52,8 +52,7 @@ public class TemporalSnapshot<IDTYPE, STATE extends Enum<?>, EVENT extends Enum<
 	public final ContextHandle<IDTYPE> contextHandle;
 
 	/**
-	 * Create a snapshot for the provided structure with a default Temporal Context
-	 * (i.e. effective now, version 1, revision 0)
+	 * Create a snapshot for the provided structure with a default Temporal Context (i.e. effective now, version 1, revision 0)
 	 * 
 	 * @param struct the structure to encapsulate
 	 */
@@ -70,7 +69,6 @@ public class TemporalSnapshot<IDTYPE, STATE extends Enum<?>, EVENT extends Enum<
 	public TemporalSnapshot(@NonNull final TemporalContext context, @NonNull final STRUCT struct) {
 		this.context = context;
 		this.struct = struct;
-		this.contextHandle = new ContextHandle<>(this.struct.getIdentifier(), this.context.version,
-				this.context.revision);
+		this.contextHandle = new ContextHandle<>(this.struct.getIdentifier(), this.context.version, this.context.revision);
 	}
 }
