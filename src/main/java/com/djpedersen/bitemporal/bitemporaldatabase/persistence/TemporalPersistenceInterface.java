@@ -30,11 +30,11 @@ import lombok.NonNull;
  * 
  * @author Daniel R. Pedersen
  * 
- * @param <IDTYPE>   the type of the structure's identifier
- * @param <STATE_ENUM>    the type of the structure's state enum
- * @param <EVENT_ENUM>    the type of the structure's event enum
- * @param <STRUCT>   the type of the structure
- * @param <SNAPSHOT> the type of the structure's snapsho
+ * @param <IDTYPE>     the type of the structure's identifier
+ * @param <STATE_ENUM> the type of the structure's state enum
+ * @param <EVENT_ENUM> the type of the structure's event enum
+ * @param <STRUCT>     the type of the structure
+ * @param <SNAPSHOT>   the type of the structure's snapsho
  */
 public interface TemporalPersistenceInterface<IDTYPE, STATE_ENUM extends Enum<?>, EVENT_ENUM extends Enum<?>, STRUCT extends TemporalStructureInterface<IDTYPE, STATE_ENUM, EVENT_ENUM>, SNAPSHOT extends TemporalSnapshot<IDTYPE, STATE_ENUM, EVENT_ENUM, STRUCT>> {
 
@@ -160,16 +160,16 @@ public interface TemporalPersistenceInterface<IDTYPE, STATE_ENUM extends Enum<?>
 	 *
 	 * @see PropertySetter for details about the correctionPath format
 	 * 
-	 * @param id             the identifier of the snapshot
-	 * @param version        the version of to correct
-	 * @param correctionPath the path to the field to correct
-	 * @param newValue       the new value to place (can be null)
-	 * @param reason         required, the reason for the change
+	 * @param id                   the identifier of the snapshot
+	 * @param version              the version of to correct
+	 * @param structCorrectionPath the path to the field to correct
+	 * @param newValue             the new value to place (can be null)
+	 * @param reason               required, the reason for the change
 	 * @return a pair of the original and corrected snapshots if the path is found, null otherwise
 	 * @throws TemporalPersistenceException if there is a problem
 	 */
-	CorrectedPair<SNAPSHOT> correctVersion(@NonNull final IDTYPE id, final int version, @NonNull final String correctionPath, final Object newValue,
-			@NonNull final String reason) throws TemporalPersistenceException;
+	CorrectedPair<SNAPSHOT> correctStructByVersion(@NonNull final IDTYPE id, final int version, @NonNull final String structCorrectionPath,
+			final Object newValue, @NonNull final String reason) throws TemporalPersistenceException;
 
 	/**
 	 * Correct the latest revision of all version the identified snapshot with the new provided value
@@ -180,21 +180,31 @@ public interface TemporalPersistenceInterface<IDTYPE, STATE_ENUM extends Enum<?>
 	 * 
 	 * @see PropertySetter for details about the correctionPath format
 	 * 
-	 * @param id             the identifier of the snapshot
-	 * @param correctionPath the path to the field to correct
-	 * @param newValue       the new value to place (can be null)
-	 * @param reason         required, the reason for the change
+	 * @param id                   the identifier of the snapshot
+	 * @param structCorrectionPath the path to the field to correct
+	 * @param newValue             the new value to place (can be null)
+	 * @param reason               required, the reason for the change
 	 * @return a list of all pairs of the original and corrected snapshots of all versions corrected
 	 * @throws TemporalPersistenceException if there is a problem
 	 */
-	List<CorrectedPair<SNAPSHOT>> correctAllVersions(@NonNull final IDTYPE id, @NonNull final String correctionPath, final Object newValue,
+	List<CorrectedPair<SNAPSHOT>> correctStructAllVersions(@NonNull final IDTYPE id, @NonNull final String structCorrectionPath, final Object newValue,
 			@NonNull final String reason) throws TemporalPersistenceException;
 
-	// TODO: correct state
-	// TODO: correct event
-	// TODO: correctVersionEffectiveOn
-//	List<CorrectedPair<SNAPSHOT>> correctVersionEffectiveOn(@NonNull final IDTYPE id, final int version, @NonNull final Instant newEffectiveOn,
-//			@NonNull final String reason) throws TemporalPersistenceException;
+	/**
+	 * Correct the latest revision of the specified version such that it has the specified effectiveOn.
+	 * 
+	 * N.B. If the new effectiveOn effectively re-orders the version then all affected versions are re-versioned assigning the
+	 * correct version number as a result of the re-ordering.
+	 * 
+	 * @param id             the identifier of the snapshot
+	 * @param version        the version of to correct
+	 * @param newEffectiveOn required, the new effectiveOn
+	 * @param reason         required, the reason for the change
+	 * @return a list of all pairs of the original and corrected snapshots of all versions corrected
+	 * @throws TemporalPersistenceException
+	 */
+	List<CorrectedPair<SNAPSHOT>> correctContextEffectiveOn(@NonNull final IDTYPE id, final int version, @NonNull final Instant newEffectiveOn,
+			@NonNull final String reason) throws TemporalPersistenceException;
 
 	//
 	// Query by Id
