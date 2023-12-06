@@ -43,7 +43,7 @@ classDiagram
 			originalSnapshot SNAPSHOT (final)
 			correctedSnapshot SNAPSHOT (final)
 
-			of(originalSnapshot SNAPSHOT, correctedSnapshot SNAPSHOT) CorrectedPair<SNAPSHOT>$
+			of(originalSnapshot SNAPSHOT, correctedSnapshot SNAPSHOT) CorrectedPair$
     }
 
     class TemporalPersistenceInterface~IDTYPE, STATE_ENUM, EVENT_ENUM, STRUCT, SNAPSHOT~ {
