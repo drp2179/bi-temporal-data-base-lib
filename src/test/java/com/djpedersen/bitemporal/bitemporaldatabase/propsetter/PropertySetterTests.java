@@ -183,9 +183,4 @@ class PropertySetterTests {
 		Assertions.assertFalse(wasSet, "value should NOT have been set");
 		Assertions.assertEquals(originalObjectToFix, objectToFix, "object should not have been changed");
 	}
-
-	@Test
-	void thisTestWillFail() {
-		Assertions.fail();
-	}
 }
