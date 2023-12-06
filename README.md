@@ -45,6 +45,8 @@ classDiagram
 
 			of(originalSnapshot SNAPSHOT, correctedSnapshot SNAPSHOT) CorrectedPair $
     }
+    
+    CorrectedPair "2" --> TemporalSnapshot
 
     class TemporalPersistenceInterface~IDTYPE, STATE_ENUM, EVENT_ENUM, STRUCT, SNAPSHOT~ {
         <<interface>>
