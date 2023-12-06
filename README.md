@@ -61,16 +61,26 @@ classDiagram
         appendVersion(struct STRUCT, effectiveOn Instant) SNAPSHOT
         appendVersion(struct STRUCT, effectiveOn Instant, comment String) SNAPSHOT
         
-        correctVersion(id IDTYPE, version int, correctionPath String, newValue Object, reason String) CorrectedPair~SNAPSHOT~
-        correctAllVersions(id IDTYPE, correctionPath String, newValue Object, reason String) List~CorrectedPair~SNAPSHOT~~
+        correctStructByVersion(id IDTYPE, version int, structCorrectionPath String, newValue Object, reason String) CorrectedPair~SNAPSHOT~
+        correctStructAllVersions(id IDTYPE, structCorrectionPath String, newValue Object, reason String) List~CorrectedPair~SNAPSHOT~~
+        correctContextEffectiveOn(id IDTYPE, version int, newEffectiveOn Instant, reason String) List~CorrectedPair~SNAPSHOT~~
         
         getByIdCurrent(id IDTYPE) Optional~SNAPSHOT~
         getByIdLast(id IDTYPE) Optional~SNAPSHOT~
         getByIdEffective(id IDTYPE, effectiveOn Instant) Optional~SNAPSHOT~
+        getByIdAndVersion(id IDTYPE, version int) Optional~SNAPSHOT~
+        getByIdVersionAndRevision(id IDTYPE, version int, revision int) Optional~SNAPSHOT~
+        getByContextHandle(contextHandle ContextHandle~IDTYPE~) Optional~SNAPSHOT~
+        getAllVersions(id IDTYPE) List~SNAPSHOT~
+        getAllVersions(id IDTYPE, effectiveFrom Instant, effectiveUntil Instant) List~SNAPSHOT~
+        getAllVersions(id IDTYPE, startingVersion int, endingVersion int) List~SNAPSHOT~
+        getAllVersionsAndRevisions(id IDTYPE) List~SNAPSHOT~
+        getAllVersionsAndRevisions(id IDTYPE, effectiveFrom Instant, effectiveUntil Instant) List~SNAPSHOT~
+        getAllVersionsAndRevisions(id IDTYPE, startingVersion int, endingVersion int) List~SNAPSHOT~
         
         getLastInstant() Instant
     }
-
+    
     TemporalPersistenceInterface --> TemporalSnapshot
     TemporalPersistenceInterface --> CorrectedPair
     
