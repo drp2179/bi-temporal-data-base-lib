@@ -34,7 +34,7 @@ class TemporalContextCreateNextTests {
 
 		Assertions.assertEquals(2, nextVersionContext.version, "version is wrong");
 		Assertions.assertEquals(0, nextVersionContext.revision, "revision is wrong");
-		Assertions.assertNotNull(nextVersionContext.effectiveOn, "effectiveFrom is wrong");
+		Assertions.assertNotNull(nextVersionContext.effectiveFrom, "effectiveFrom is wrong");
 		Assertions.assertNotNull(nextVersionContext.recordedOn, "recordedOn is wrong");
 		Assertions.assertNull(nextVersionContext.comment, "comment is wrong");
 	}
@@ -49,7 +49,7 @@ class TemporalContextCreateNextTests {
 
 		Assertions.assertEquals(2, nextVersionContext.version, "version is wrong");
 		Assertions.assertEquals(0, nextVersionContext.revision, "revision is wrong");
-		Assertions.assertEquals(now, nextVersionContext.effectiveOn, "effectiveFrom is wrong");
+		Assertions.assertEquals(now, nextVersionContext.effectiveFrom, "effectiveFrom is wrong");
 		Assertions.assertNotNull(nextVersionContext.recordedOn, "recordedOn is wrong");
 		Assertions.assertNull(nextVersionContext.comment, "comment is wrong");
 	}
@@ -65,7 +65,7 @@ class TemporalContextCreateNextTests {
 
 		Assertions.assertEquals(2, nextVersionContext.version, "version is wrong");
 		Assertions.assertEquals(0, nextVersionContext.revision, "revision is wrong");
-		Assertions.assertEquals(now, nextVersionContext.effectiveOn, "effectiveFrom is wrong");
+		Assertions.assertEquals(now, nextVersionContext.effectiveFrom, "effectiveFrom is wrong");
 		Assertions.assertNotNull(nextVersionContext.recordedOn, "recordedOn is wrong");
 		Assertions.assertEquals(comment, nextVersionContext.comment, "comment is wrong");
 	}
@@ -78,7 +78,7 @@ class TemporalContextCreateNextTests {
 
 		Assertions.assertEquals(1, nextRevisionContext.version, "version is wrong");
 		Assertions.assertEquals(1, nextRevisionContext.revision, "revision is wrong");
-		Assertions.assertEquals(temporalContext.effectiveOn, nextRevisionContext.effectiveOn,
+		Assertions.assertEquals(temporalContext.effectiveFrom, nextRevisionContext.effectiveFrom,
 				"effectiveFrom is wrong");
 		Assertions.assertNotNull(nextRevisionContext.recordedOn, "recordedOn is wrong");
 		Assertions.assertNull(nextRevisionContext.comment, "comment is wrong");
@@ -94,7 +94,7 @@ class TemporalContextCreateNextTests {
 
 		Assertions.assertEquals(1, nextRevisionContext.version, "version is wrong");
 		Assertions.assertEquals(1, nextRevisionContext.revision, "revision is wrong");
-		Assertions.assertEquals(temporalContext.effectiveOn, nextRevisionContext.effectiveOn,
+		Assertions.assertEquals(temporalContext.effectiveFrom, nextRevisionContext.effectiveFrom,
 				"effectiveFrom is wrong");
 		Assertions.assertNotNull(nextRevisionContext.recordedOn, "recordedOn is wrong");
 		Assertions.assertEquals(comment, nextRevisionContext.comment, "comment is wrong");
@@ -110,7 +110,7 @@ class TemporalContextCreateNextTests {
 
 		Assertions.assertEquals(2, nextVersionRevisionContext.version, "version is wrong");
 		Assertions.assertEquals(1, nextVersionRevisionContext.revision, "revision is wrong");
-		Assertions.assertEquals(nextVersionContext.effectiveOn, nextVersionRevisionContext.effectiveOn,
+		Assertions.assertEquals(nextVersionContext.effectiveFrom, nextVersionRevisionContext.effectiveFrom,
 				"effectiveFrom is wrong");
 		Assertions.assertNotNull(nextVersionRevisionContext.recordedOn, "recordedOn is wrong");
 		Assertions.assertNull(nextVersionRevisionContext.comment, "comment is wrong");

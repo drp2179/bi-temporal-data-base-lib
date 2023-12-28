@@ -44,7 +44,7 @@ public class TemporalContext {
 	 * When the Snapshot is effective
 	 */
 	@NonNull
-	public final Instant effectiveOn;
+	public final Instant effectiveFrom;
 
 	/**
 	 * When the Snapshot was recorded
@@ -60,14 +60,15 @@ public class TemporalContext {
 	/**
 	 * Primary set everything constructor
 	 * 
-	 * @param effectiveOn when the context is effective
-	 * @param version     the version of the context
-	 * @param revision    the revision of the version of the context
-	 * @param comment     (optional) a comment about the context
-	 * @param recordedOn  when the context was recorded
+	 * @param effectiveFrom when the context is effective
+	 * @param version       the version of the context
+	 * @param revision      the revision of the version of the context
+	 * @param comment       (optional) a comment about the context
+	 * @param recordedOn    when the context was recorded
 	 */
-	public TemporalContext(@NonNull final Instant effectiveOn, final int version, final int revision, final String comment, @NonNull final Instant recordedOn) {
-		this.effectiveOn = effectiveOn;
+	public TemporalContext(@NonNull final Instant effectiveFrom, final int version, final int revision, final String comment,
+			@NonNull final Instant recordedOn) {
+		this.effectiveFrom = effectiveFrom;
 		this.version = version;
 		this.revision = revision;
 		this.comment = comment;
@@ -84,10 +85,10 @@ public class TemporalContext {
 	/**
 	 * Simple constructor creates a context effective as specified, version 1, revision 0, no comment, recorded now
 	 * 
-	 * @param effectiveOn when the context is effective
+	 * @param effectiveFrom when the context is effective
 	 */
-	public TemporalContext(@NonNull final Instant effectiveOn) {
-		this(effectiveOn, 1, 0, null, Instant.now());
+	public TemporalContext(@NonNull final Instant effectiveFrom) {
+		this(effectiveFrom, 1, 0, null, Instant.now());
 	}
 
 	/**
@@ -102,32 +103,32 @@ public class TemporalContext {
 	/**
 	 * Create context effective as specified, version 1, revision 0, no comment, recorded as specified
 	 * 
-	 * @param effectiveOn when the context is effective
-	 * @param recordedOn  when the context was recorded
+	 * @param effectiveFrom when the context is effective
+	 * @param recordedOn    when the context was recorded
 	 */
-	public TemporalContext(@NonNull final Instant effectiveOn, @NonNull final Instant recordedOn) {
-		this(effectiveOn, 1, 0, null, recordedOn);
+	public TemporalContext(@NonNull final Instant effectiveFrom, @NonNull final Instant recordedOn) {
+		this(effectiveFrom, 1, 0, null, recordedOn);
 	}
 
 	/**
 	 * Create a context effective as specified, version 1, revision 0, comment as specified, recorded now
 	 *
-	 * @param effectiveOn when the context is effective
-	 * @param comment     (optional) a comment about the context
+	 * @param effectiveFrom when the context is effective
+	 * @param comment       (optional) a comment about the context
 	 */
-	public TemporalContext(@NonNull final Instant effectiveOn, final String comment) {
-		this(effectiveOn, 1, 0, comment, Instant.now());
+	public TemporalContext(@NonNull final Instant effectiveFrom, final String comment) {
+		this(effectiveFrom, 1, 0, comment, Instant.now());
 	}
 
 	/**
 	 * Create a context effective as specified, version 1, revision 0, comment as specified, recorded as specified
 	 *
-	 * @param effectiveOn when the context is effective
-	 * @param comment     (optional) a comment about the context
-	 * @param recordedOn  when the context was recorded
+	 * @param effectiveFrom when the context is effective
+	 * @param comment       (optional) a comment about the context
+	 * @param recordedOn    when the context was recorded
 	 */
-	public TemporalContext(@NonNull final Instant effectiveOn, final String comment, @NonNull final Instant recordedOn) {
-		this(effectiveOn, 1, 0, comment, recordedOn);
+	public TemporalContext(@NonNull final Instant effectiveFrom, final String comment, @NonNull final Instant recordedOn) {
+		this(effectiveFrom, 1, 0, comment, recordedOn);
 	}
 
 	/**
@@ -136,7 +137,7 @@ public class TemporalContext {
 	 * @param src the context to copy
 	 */
 	public TemporalContext(@NonNull final TemporalContext src) {
-		this(src.effectiveOn, src.version, src.revision, src.comment, src.recordedOn);
+		this(src.effectiveFrom, src.version, src.revision, src.comment, src.recordedOn);
 	}
 
 	/**
@@ -151,22 +152,22 @@ public class TemporalContext {
 	/**
 	 * Create the next version of this TemporalContext with the provided effective date.
 	 * 
-	 * @param effectiveOn when the version is effective.
+	 * @param effectiveFrom when the version is effective.
 	 * @return the next version of this TemporalContext
 	 */
-	public TemporalContext createNextVersion(@NonNull final Instant effectiveOn) {
-		return new TemporalContext(effectiveOn, this.version + 1, 0, null, Instant.now());
+	public TemporalContext createNextVersion(@NonNull final Instant effectiveFrom) {
+		return new TemporalContext(effectiveFrom, this.version + 1, 0, null, Instant.now());
 	}
 
 	/**
 	 * Create the next version of this TemporalContext with the provided effective date and comment
 	 * 
-	 * @param effectiveOn when the version is effective.
-	 * @param comment     optional comment about the context
+	 * @param effectiveFrom when the version is effective.
+	 * @param comment       optional comment about the context
 	 * @return the next version of this TemporalContext
 	 */
-	public TemporalContext createNextVersion(@NonNull final Instant effectiveOn, final String comment) {
-		return new TemporalContext(effectiveOn, this.version + 1, 0, comment, Instant.now());
+	public TemporalContext createNextVersion(@NonNull final Instant effectiveFrom, final String comment) {
+		return new TemporalContext(effectiveFrom, this.version + 1, 0, comment, Instant.now());
 	}
 
 	/**
@@ -175,7 +176,7 @@ public class TemporalContext {
 	 * @return the next revision of this TemporalContext
 	 */
 	public TemporalContext createNextRevision() {
-		return new TemporalContext(this.effectiveOn, this.version, this.revision + 1, null, Instant.now());
+		return new TemporalContext(this.effectiveFrom, this.version, this.revision + 1, null, Instant.now());
 	}
 
 	/**
@@ -185,7 +186,7 @@ public class TemporalContext {
 	 * @return the next revision of this TemporalContext
 	 */
 	public TemporalContext createNextRevision(final String comment) {
-		return new TemporalContext(this.effectiveOn, this.version, this.revision + 1, comment, Instant.now());
+		return new TemporalContext(this.effectiveFrom, this.version, this.revision + 1, comment, Instant.now());
 	}
 
 }

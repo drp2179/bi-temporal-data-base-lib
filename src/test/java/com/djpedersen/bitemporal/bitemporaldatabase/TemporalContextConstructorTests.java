@@ -32,7 +32,7 @@ class TemporalContextConstructorTests {
 
 		Assertions.assertEquals(1, temporalContext.version, "version is wrong");
 		Assertions.assertEquals(0, temporalContext.revision, "revision is wrong");
-		Assertions.assertNotNull(temporalContext.effectiveOn, "effectiveFrom is wrong");
+		Assertions.assertNotNull(temporalContext.effectiveFrom, "effectiveFrom is wrong");
 		Assertions.assertNotNull(temporalContext.recordedOn, "recordedOn is wrong");
 		Assertions.assertNull(temporalContext.comment, "comment is wrong");
 	}
@@ -45,7 +45,7 @@ class TemporalContextConstructorTests {
 
 		Assertions.assertEquals(1, temporalContext.version, "version is wrong");
 		Assertions.assertEquals(0, temporalContext.revision, "revision is wrong");
-		Assertions.assertEquals(now, temporalContext.effectiveOn, "effectiveFrom is wrong");
+		Assertions.assertEquals(now, temporalContext.effectiveFrom, "effectiveFrom is wrong");
 		Assertions.assertNotNull(temporalContext.recordedOn, "recordedOn is wrong");
 		Assertions.assertNull(temporalContext.comment, "comment is wrong");
 	}
@@ -58,7 +58,7 @@ class TemporalContextConstructorTests {
 
 		Assertions.assertEquals(1, temporalContext.version, "version is wrong");
 		Assertions.assertEquals(0, temporalContext.revision, "revision is wrong");
-		Assertions.assertNotNull(temporalContext.effectiveOn, "effectiveFrom is wrong");
+		Assertions.assertNotNull(temporalContext.effectiveFrom, "effectiveFrom is wrong");
 		Assertions.assertNotNull(temporalContext.recordedOn, "recordedOn is wrong");
 		Assertions.assertEquals(comment, temporalContext.comment, "comment is wrong");
 	}
@@ -72,7 +72,7 @@ class TemporalContextConstructorTests {
 
 		Assertions.assertEquals(1, temporalContext.version, "version is wrong");
 		Assertions.assertEquals(0, temporalContext.revision, "revision is wrong");
-		Assertions.assertEquals(now, temporalContext.effectiveOn, "effectiveFrom is wrong");
+		Assertions.assertEquals(now, temporalContext.effectiveFrom, "effectiveFrom is wrong");
 		Assertions.assertNotNull(temporalContext.recordedOn, "recordedOn is wrong");
 		Assertions.assertEquals(comment, temporalContext.comment, "comment is wrong");
 	}
@@ -86,7 +86,7 @@ class TemporalContextConstructorTests {
 
 		Assertions.assertEquals(1, temporalContext.version, "version is wrong");
 		Assertions.assertEquals(0, temporalContext.revision, "revision is wrong");
-		Assertions.assertEquals(now, temporalContext.effectiveOn, "effectiveFrom is wrong");
+		Assertions.assertEquals(now, temporalContext.effectiveFrom, "effectiveFrom is wrong");
 		Assertions.assertEquals(recorded, temporalContext.recordedOn, "recordedOn is wrong");
 		Assertions.assertNull(temporalContext.comment, "comment is wrong");
 	}
@@ -101,7 +101,7 @@ class TemporalContextConstructorTests {
 
 		Assertions.assertEquals(1, temporalContext.version, "version is wrong");
 		Assertions.assertEquals(0, temporalContext.revision, "revision is wrong");
-		Assertions.assertEquals(now, temporalContext.effectiveOn, "effectiveFrom is wrong");
+		Assertions.assertEquals(now, temporalContext.effectiveFrom, "effectiveFrom is wrong");
 		Assertions.assertEquals(recorded, temporalContext.recordedOn, "recordedOn is wrong");
 		Assertions.assertEquals(comment, temporalContext.comment, "comment is wrong");
 	}
